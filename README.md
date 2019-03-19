@@ -6,3 +6,7 @@ The possibilities to use drum samples or instruments exist that respond to a mic
 Some of the voices broadcast into my head sound like they have an algorithm processing their speech to sound more frightening, threatening, whiny, or intimidating. I started this project this morning to mimic the type of audio algorithms they use with their illegal broadcasting tech.
 
 With help from this CodePen example: https://codepen.io/zapplebee/pen/gbNbZE
+
+A video recording of this in action can be [seen here](https://youtu.be/S3UxLItOQfI).
+
+[![Silent Dwelling as Cars Pass - SoundMaskerDistracterFocuser](https://img.youtube.com/vi/S3UxLItOQfI/0.jpg)](https://youtu.be/S3UxLItOQfI)

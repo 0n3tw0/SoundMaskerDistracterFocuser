@@ -39,19 +39,27 @@ window.onload = function () {
 		//new Audio('16000.mp3'),
 		//new Audio('15000.mp3'),
 		
-		
-		new Audio('10000.mp3'),
-		new Audio('12000.mp3'),
-		new Audio('10000.mp3'),
-		new Audio('12000.mp3'),
-		
-		//new Audio('16000.mp3'),
+		new Audio('15000.mp3'),
+		new Audio('14000.mp3'),
 		//new Audio('15000.mp3'),
+		//new Audio('14000.mp3'),
+		
+		new Audio('14000.mp3'),
+		new Audio('12000.mp3'),
+		new Audio('14000.mp3'),
+		new Audio('12000.mp3'),
+		
+		
+		
 		new Audio('14000.mp3'),
 		new Audio('8000.mp3'),
 		new Audio('14000.mp3'),
 		new Audio('8000.mp3'),
 		
+		new Audio('15000.mp3'),
+		new Audio('12000.mp3'),
+		//new Audio('15000.mp3'),
+		//new Audio('12000.mp3'),
 		
 		//new Audio('10000.mp3'),
 		/*new Audio('12000.mp3'),
@@ -63,6 +71,7 @@ window.onload = function () {
 		new Audio('10000.mp3'),
 		new Audio('8000.mp3'),
 		new Audio('10000.mp3'),
+		
 
 		//new Audio('8000.mp3')
 	];
@@ -105,7 +114,7 @@ window.onload = function () {
 			
 			var amplitude=0;
 			var ampTone=[];
-			var cutoff=20+Math.floor(Math.random()*140);
+			var cutoff=20+Math.floor(Math.random()*40);
 			
             for (var i = 0 ; i < 255; i++) {
               	adjustedLength = Math.floor(frequencyArray[i]) - (Math.floor(frequencyArray[i]) % 5);
@@ -129,7 +138,7 @@ window.onload = function () {
 			var ampToneMax=0;
 			
 			for(i=0;i<ampTone.length;i++){
-				if(ampTone[i]&&ampTone[i]>ampToneMax&&Math.random()<.5){
+				if(ampTone[i]&&ampTone[i]>ampToneMax&&Math.random()<.2){
 					ampToneMax=ampTone[i];
 					toneI=i;
 				}
@@ -171,7 +180,7 @@ window.onload = function () {
 						currentTone.loop=true;
 						currentTone.pause();
 						currentTone.currentTime=0;
-					},20+Math.floor(Math.random()*380));
+					},160+Math.floor(Math.random()*40));
 					
 				}
 				
@@ -183,7 +192,7 @@ window.onload = function () {
 				
 				currentTone.volume=amplitude;
 				
-				if(false&&Math.random()<.1){
+				if(Math.random()<.1){
 					
 				}else{
 					currentTone.play();

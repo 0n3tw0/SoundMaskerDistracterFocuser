@@ -1,3 +1,4 @@
+<!-- https://github.com/0n3tw0/SoundMaskerDistracterFocuser -->
 <html>
 <head>
 
@@ -114,7 +115,7 @@ window.onload = function () {
 			
 			var amplitude=0;
 			var ampTone=[];
-			var cutoff=20+Math.floor(Math.random()*40);
+			var cutoff=0+Math.floor(Math.random()*40);
 			
             for (var i = 0 ; i < 255; i++) {
               	adjustedLength = Math.floor(frequencyArray[i]) - (Math.floor(frequencyArray[i]) % 5);
@@ -179,8 +180,8 @@ window.onload = function () {
 					setTimeout(function(){
 						currentTone.loop=true;
 						currentTone.pause();
-						currentTone.currentTime=0;
-					},160+Math.floor(Math.random()*40));
+						//currentTone.currentTime=0;
+					},20+Math.floor(Math.random()*40));
 					
 				}
 				

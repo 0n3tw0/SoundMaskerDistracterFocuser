@@ -1,4 +1,6 @@
 # SoundMaskerDistracterFocuser
+I don't know if I'm being fooled, fooling myself, or something really is here. I've thought about this for years until recently discovering how simple this is in javascript.
+
 Possible relief from sensory overload, noise pollution, forced speech, and forced consumption and illegal marketing of unmarketable unethical capitalist products. It'll either distract you from the harassment or focus you more on what you're listening to on the TV. 
 
 The possibilities to use drum samples or instruments exist that respond to a microphone and I'd like to explore this more but my basic human rights have been violated for more than 6 years. I'm more focused on expressing these violations than doing something creative and useful especially when I'm threatened every day as well as my future by this open secret technology that's illegally broadcasting speech while professionals and everyone alike continue to deceive. Ignorant or not?

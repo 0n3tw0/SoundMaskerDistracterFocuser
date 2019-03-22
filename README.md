@@ -9,6 +9,6 @@ Some of the voices broadcast into my head sound like they have an algorithm proc
 
 With help from this CodePen example: https://codepen.io/zapplebee/pen/gbNbZE
 
-A video recording of this in action can be [seen here](https://youtu.be/S3UxLItOQfI).
+A video recording of this in action can be [seen here](https://youtu.be/JX0-eHdPA5E).
 
-[![Silent Dwelling as Cars Pass - SoundMaskerDistracterFocuser](https://img.youtube.com/vi/S3UxLItOQfI/0.jpg)](https://youtu.be/S3UxLItOQfI)
+[![Silent Dwelling as Cars Pass - SoundMaskerDistracterFocuser](https://img.youtube.com/vi/JX0-eHdPA5E/0.jpg)](https://youtu.be/JX0-eHdPA5E)

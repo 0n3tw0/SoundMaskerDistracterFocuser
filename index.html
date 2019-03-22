@@ -100,7 +100,7 @@ window.onload = function () {
         var frequencyArray = new Uint8Array(analyser.frequencyBinCount);
         visualizer.setAttribute('viewBox', '0 0 255 255');
       
-				//Through the frequencyArray has a length longer than 255, there seems to be no
+		//Through the frequencyArray has a length longer than 255, there seems to be no
         //significant data after this point. Not worth visualizing.
         for (var i = 0 ; i < 255; i++) {
             path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -131,12 +131,12 @@ window.onload = function () {
 					ampTone[i%tones.length]+=0;
 				}else{
 					amplitude+=adjustedLength;
-					ampTone[i%tones.length]+=(adjustedLength*.75)+(Math.random()*(adjustedLength));
+					ampTone[i%tones.length]+=adjustedLength;//(adjustedLength*.75)+(Math.random()*(adjustedLength));
 				}
 
             }
 			
-			if(Math.random()<.02){
+			if(Math.random()<.25){
 				ampTone=ampTone.reverse();
 			}
 
@@ -144,9 +144,12 @@ window.onload = function () {
 			var ampToneMax=0;
 			
 			for(i=0;i<ampTone.length;i++){
-				if(ampTone[i]&&ampTone[i]>ampToneMax&&Math.random()<.5){
+				if(ampTone[i]&&ampTone[i]>ampToneMax&&Math.random()<.25){
 					ampToneMax=ampTone[i];
 					toneI=i;
+					if(Math.random()<.01){
+						return;
+					}
 				}
 			}
 			if(!tones[toneI]){
@@ -185,11 +188,11 @@ window.onload = function () {
 							lastTones[0].pause();
 							lastTones.shift();
 						}
-					},100+Math.floor(Math.random()*3900));
+					},100+Math.floor(Math.random()*1900));
 					
 				}
 
-				if(Math.random()<.2){
+				if(Math.random()<.9){
 					currentTone=tones[toneI];
 					lastTones.push(tones[toneI]);
 				}else{
@@ -198,19 +201,19 @@ window.onload = function () {
 				}
 				
 				if(amplitude<.6){
-					//amplitude+=Math.random()*.2;
+					amplitude+=Math.random()*.2;
 				}
 				
 				currentTone.volume=amplitude;
 				currentTone.loop=true;
 				
-				if(Math.random()<.25){
+				if(Math.random()<.1){
 					
 				}else{
 					currentTone.play();
 				}
 				
-				currentTonePlayedAt=timestampSeconds+Math.floor((Math.random()*intervalPlay)/1);
+				currentTonePlayedAt=timestampSeconds;//+Math.floor((Math.random()*intervalPlay)/1);
 				
 				//console.log(currentTone.volume);
 				

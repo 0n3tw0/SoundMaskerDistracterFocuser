@@ -50,20 +50,20 @@ window.onload = function () {
 		new Audio('10000.mp3'),
 	];
 	var tones2=[
-		new Audio('8000.mp3'),
+		new Audio('1500.mp3'),
 		new Audio('8000-2.mp3'),
 		new Audio('8000.mp3'),
-		new Audio('8000-2.mp3'),
+		new Audio('1500.mp3'),
 		
 		new Audio('10000.mp3'),
 		new Audio('10000-2.mp3'),
 		new Audio('10000.mp3'),
 		new Audio('10000-2.mp3'),
 		
-		new Audio('12000.mp3'),
+		new Audio('15000.mp3'),
 		new Audio('12000-2.mp3'),
 		new Audio('12000.mp3'),
-		new Audio('12000-2.mp3'),
+		new Audio('15000.mp3'),
 		
 		new Audio('10000.mp3'),
 		new Audio('10000-2.mp3'),
@@ -92,6 +92,7 @@ window.onload = function () {
 	var maxHistory=[0];
 	var intervalPlay=10;
 	var lastTones=[];
+	var maxVolume=.008;
     
     var soundAllowed = function (stream) {
         //Audio stops listening in FF without // window.persistAudioStream = stream;
@@ -125,7 +126,7 @@ window.onload = function () {
 			var amplitude=0;
 			var ampTone=[];
 			
-			var cutoff=Math.floor(Math.random()*40);
+			var cutoff=Math.floor(Math.random()*20);
 
             for (var i = 0 ; i < 255; i++) {
 			
@@ -145,7 +146,7 @@ window.onload = function () {
 
             }
 			
-			if(Math.random()<.1){
+			if(Math.random()<.25){
 				ampTone=ampTone.reverse();
 			}
 
@@ -153,10 +154,10 @@ window.onload = function () {
 			var ampToneMax=0;
 			
 			for(i=0;i<ampTone.length;i++){
-				if(ampTone[i]&&ampTone[i]>ampToneMax&&Math.random()<.4){
+				if(ampTone[i]&&ampTone[i]>ampToneMax&&Math.random()<.25){
 					ampToneMax=ampTone[i];
 					toneI=i;
-					if(Math.random()<.1){
+					if(Math.random()<.06){
 						return;
 					}
 				}
@@ -191,9 +192,9 @@ window.onload = function () {
 				}
 				
 				//amplitude=amplitude;
-				if(currentTone){
+				if(currentTone&&Math.random()<.5){
 					setTimeout(function(){
-						while(lastTones.length>14-Math.floor(Math.random()*11)){
+						while(lastTones.length>10-Math.floor(Math.random()*7)){
 							lastTones[0].pause();
 							lastTones.shift();
 						}
@@ -201,7 +202,7 @@ window.onload = function () {
 					
 				}
 
-				if(Math.random()<.5){
+				if(Math.random()<.75){
 					currentTone=tones[toneI];
 					lastTones.push(tones[toneI]);
 				}else{
@@ -209,24 +210,28 @@ window.onload = function () {
 					lastTones.push(tones2[toneI]);
 				}
 				
+				
+				
 				if(amplitude<.6){
-					amplitude+=Math.random()*.2;
+					amplitude+=Math.random()*.4;
 				}
+				
+				amplitude*=maxVolume;
 				
 				currentTone.volume=amplitude;
 				currentTone.loop=true;
-				if(currentTone.currentTime<16){
+				if(currentTone.currentTime<6){
 					currentTone.currentTime+=Math.random()*4;
 				}
 				
 				
-				if(Math.random()<.1){
+				if(Math.random()<.1+(Math.random()*.3)){
 					
 				}else{
 					currentTone.play();
 				}
 				
-				currentTonePlayedAt=timestampSeconds+Math.floor((Math.random()*intervalPlay)/1);
+				currentTonePlayedAt=timestampSeconds;//+Math.floor((Math.random()*intervalPlay)/1);
 				
 				//console.log(currentTone.volume);
 				
@@ -249,6 +254,10 @@ window.onload = function () {
                               null;*/
     navigator.getUserMedia({audio:true}, soundAllowed, soundNotAllowed);
 
+	window.onclick=function(){
+		navigator.getUserMedia({audio:true}, soundAllowed, soundNotAllowed);
+	}
+	
 };
 
 </script>

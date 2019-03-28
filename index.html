@@ -92,7 +92,7 @@ window.onload = function () {
 	var maxHistory=[0];
 	var intervalPlay=10;
 	var lastTones=[];
-	var maxVolume=.008;
+	var maxVolume=1;//.008;
     
     var soundAllowed = function (stream) {
         //Audio stops listening in FF without // window.persistAudioStream = stream;
@@ -118,6 +118,9 @@ window.onload = function () {
             mask.appendChild(path);
         }
         var doDraw = function () {
+		
+			var i;
+			
 
             requestAnimationFrame(doDraw);
             analyser.getByteFrequencyData(frequencyArray);
@@ -126,9 +129,9 @@ window.onload = function () {
 			var amplitude=0;
 			var ampTone=[];
 			
-			var cutoff=Math.floor(Math.random()*20);
+			var cutoff=Math.floor(random2()*20);
 
-            for (var i = 0 ; i < 255; i++) {
+            for (i = 0 ; i < 255; i++) {
 			
               	adjustedLength = Math.floor(frequencyArray[i]) - (Math.floor(frequencyArray[i]) % 5);
 
@@ -141,23 +144,23 @@ window.onload = function () {
 					ampTone[i%tones.length]+=0;
 				}else{
 					amplitude+=adjustedLength;
-					ampTone[i%tones.length]+=adjustedLength;//(adjustedLength*.75)+(Math.random()*(adjustedLength));
+					ampTone[i%tones.length]+=adjustedLength;//+(adjustedLength*.75)+(random2()*(adjustedLength));
 				}
 
             }
 			
-			if(Math.random()<.25){
+			if(random2()<.1){
 				ampTone=ampTone.reverse();
 			}
 
-			var toneI=Math.floor(Math.random()*tones.length);
+			var toneI=Math.floor(random2()*tones.length);
 			var ampToneMax=0;
 			
 			for(i=0;i<ampTone.length;i++){
-				if(ampTone[i]&&ampTone[i]>ampToneMax&&Math.random()<.25){
+				if(ampTone[i]&&ampTone[i]>ampToneMax&&random2()<.25){
 					ampToneMax=ampTone[i];
 					toneI=i;
-					if(Math.random()<.06){
+					if(random2()<.1){
 						return;
 					}
 				}
@@ -192,17 +195,17 @@ window.onload = function () {
 				}
 				
 				//amplitude=amplitude;
-				if(currentTone&&Math.random()<.5){
+				if(currentTone&&random2()<.2){
 					setTimeout(function(){
-						while(lastTones.length>10-Math.floor(Math.random()*7)){
+						while(lastTones.length>8-Math.floor(random2()*7)){
 							lastTones[0].pause();
 							lastTones.shift();
 						}
-					},100+Math.floor(Math.random()*900));
+					},10+Math.floor(random2()*990));
 					
 				}
 
-				if(Math.random()<.75){
+				if(random2()<.5){
 					currentTone=tones[toneI];
 					lastTones.push(tones[toneI]);
 				}else{
@@ -212,26 +215,26 @@ window.onload = function () {
 				
 				
 				
-				if(amplitude<.6){
-					amplitude+=Math.random()*.4;
+				if(amplitude<.6&&random2()<.25){
+					amplitude+=random2()*.4;
 				}
 				
 				amplitude*=maxVolume;
 				
 				currentTone.volume=amplitude;
 				currentTone.loop=true;
-				if(currentTone.currentTime<6){
-					currentTone.currentTime+=Math.random()*4;
+				if(currentTone.currentTime<10){
+					currentTone.currentTime+=random2()*5;
 				}
 				
 				
-				if(Math.random()<.1+(Math.random()*.3)){
+				if(random2()<.1+(random2()*.2)){
 					
 				}else{
 					currentTone.play();
 				}
 				
-				currentTonePlayedAt=timestampSeconds;//+Math.floor((Math.random()*intervalPlay)/1);
+				currentTonePlayedAt=timestampSeconds+Math.floor((random2()*intervalPlay)/1);
 				
 				//console.log(currentTone.volume);
 				
@@ -259,6 +262,15 @@ window.onload = function () {
 	}
 	
 };
+
+function random2(){
+	var max=Math.floor(Math.random()*20000);
+	var i;
+	for(i=0;i<max;i++){
+		Math.random();
+	}
+	return Math.random();
+}
 
 </script>
 <style>

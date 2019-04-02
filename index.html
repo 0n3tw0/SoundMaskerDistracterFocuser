@@ -21,32 +21,32 @@ window.onload = function () {
 	
 
 	var tones=[
-		new Audio('range.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range2.mp3'),
-		new Audio('range2.mp3'),
-		new Audio('range3.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range.mp3'),
+	
 		new Audio('range.mp3'),
 		new Audio('range.mp3'),
 		new Audio('range2.mp3'),
-		new Audio('range2.mp3'),
-		new Audio('range3.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range.mp3'),
 		new Audio('range.mp3'),
 		new Audio('range.mp3'),
 		new Audio('range2.mp3'),
+		new Audio('range.mp3'),
+		new Audio('range.mp3'),
 		new Audio('range2.mp3'),
-		new Audio('range3.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range.mp3'),
 		new Audio('range.mp3'),
 		new Audio('range.mp3'),
 		new Audio('range2.mp3'),
+		new Audio('range3.mp3'),
+		
+		new Audio('range.mp3'),
+		new Audio('range.mp3'),
+		new Audio('range2.mp3'),
+		new Audio('range.mp3'),
+		new Audio('range.mp3'),
+		new Audio('range2.mp3'),
+		new Audio('range.mp3'),
+		new Audio('range.mp3'),
+		new Audio('range2.mp3'),
+		new Audio('range.mp3'),
+		new Audio('range.mp3'),
 		new Audio('range2.mp3'),
 		new Audio('range3.mp3')
 		
@@ -56,11 +56,11 @@ window.onload = function () {
 	
 	var currentTone=tones[0];
 	var currentTonePlayedAt=0;
-	var maxAmplitude=10000;
+	var maxAmplitude=300;
 	var maxHistory=[0];
 	var intervalPlay=10;
 	var lastTones=[];
-	var maxVolume=1;//.008;
+	var maxVolume=1;
 	var volumeHistory=[0];
     
     var soundAllowed = function (stream) {
@@ -100,6 +100,7 @@ window.onload = function () {
 			
 			var amplitude=0;
 			var ampTone=[];
+			var ampTotal=0;
 
             for (var i2 = 0 ; i2 < 255; i2++) {
 			
@@ -109,10 +110,10 @@ window.onload = function () {
 
                 paths[i2].setAttribute('d', 'M '+ (i2) +',255 l 0,-' + adjustedLength);
 
-				if(!ampTone[i2]){
-					ampTone.push(adjustedLength);
-				}
 				
+				ampTone.push(adjustedLength);
+				
+				ampTotal+=adjustedLength;
 				
 				
             }
@@ -121,24 +122,43 @@ window.onload = function () {
 			var timestampSeconds=Date.now();
 
 			if(timestampSeconds-currentTonePlayedAt>intervalPlay){
+			
+				var ampAverage=(ampTotal/ampTone.length);
+				var ampMax=0;
+				
+				for(var i3=0;i3<ampTone.length;i3++){
+					if(ampMax<ampTone[i3]){
+						ampMax=ampTone[i3];
+					}
+					
+				}
+				
+				ampAverage=ampMax*.8;
+				var ampAverage2=ampMax*.5;
+				
+				for(var i3=0;i3<ampTone.length;i3++){
+					if((ampTone[i3]<ampAverage&&random2()<.5)||ampTone[i3]<ampAverage2){
+						ampTone[i3]=0;
+					}
+				}
 
-				var toneI=Math.floor(random2()*ampTone.length);
-				amplitude=ampTone[toneI];
-				while(amplitude<maxAmplitude/2&&random2()<.999){
+				var toneI=0;
+				amplitude=0;
+				
+				while(!amplitude&&random2()<.99){
 					toneI=Math.floor(random2()*ampTone.length);
 					amplitude=ampTone[toneI];
 				}
 
-				maxHistory[0]+=amplitude;
-				maxHistory.push(amplitude);
+				maxHistory[0]+=ampMax;
+				maxHistory.push(ampMax);
 				
-				if(maxHistory.length>10){
+				if(maxHistory.length>20){
 					maxAmplitude=maxHistory[0]/maxHistory.length;
 					console.log(maxAmplitude);
 					maxHistory=[0];
 				}
 				
-				//amplitude-=1000;
 				amplitude=amplitude/maxAmplitude;
 				
 				if(amplitude<0){
@@ -147,14 +167,10 @@ window.onload = function () {
 				if(amplitude>=1){
 					amplitude=.99999;
 				}
-				
-				if(random2()<.2){
 					
-					while(lastTones.length>0){
-						lastTones[0].pause();
-						lastTones.shift();
-					}
-				
+				while(lastTones.length>1){
+					lastTones[0].pause();
+					lastTones.shift();
 				}
 				
 				
@@ -168,9 +184,7 @@ window.onload = function () {
 					volumeHistory.shift();
 				}
 				
-				if(random2()<.75){
-					amplitude*=(.25+(random2()*.25));
-				}
+				
 				
 				amplitude*=maxVolume;
 				
@@ -181,7 +195,7 @@ window.onload = function () {
 				
 				
 				
-				currentTone.currentTime=toneI-(random2()*8);//currentTone.duration*random2();
+				currentTone.currentTime=toneI-random2();
 				
 				
 				currentTone.play();

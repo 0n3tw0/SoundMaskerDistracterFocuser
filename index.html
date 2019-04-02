@@ -101,12 +101,26 @@ window.onload = function () {
 			var amplitude=0;
 			var ampTone=[];
 			var ampTotal=0;
+			var moduloEq=Math.floor(random2()*10);
+			var altAmp=random2()<.1?1:0;
 
             for (var i2 = 0 ; i2 < 255; i2++) {
 			
 			
 			
               	adjustedLength = Math.floor(frequencyArray[i2]) - (Math.floor(frequencyArray[i2]) % 5);
+			
+				if(altAmp||random2()<.005){
+					if(i2%10!=moduloEq){
+						adjustedLength*=.1;
+					}else{
+						adjustedLength*=(3+Math.floor(random2()*6));
+						adjustedLength=adjustedLength>200?0:adjustedLength;
+					}
+				
+				
+				}
+				
 
                 paths[i2].setAttribute('d', 'M '+ (i2) +',255 l 0,-' + adjustedLength);
 
@@ -133,11 +147,11 @@ window.onload = function () {
 					
 				}
 				
-				ampAverage=ampMax*.8;
-				var ampAverage2=ampMax*.5;
+				ampAverage=ampMax*.9;
+				var ampAverage2=ampMax*.4;
 				
 				for(var i3=0;i3<ampTone.length;i3++){
-					if((ampTone[i3]<ampAverage&&random2()<.5)||ampTone[i3]<ampAverage2){
+					if(ampTone[i3]<ampAverage&&ampTone[i3]<ampAverage2){
 						ampTone[i3]=0;
 					}
 				}
@@ -148,6 +162,9 @@ window.onload = function () {
 				while(!amplitude&&random2()<.99){
 					toneI=Math.floor(random2()*ampTone.length);
 					amplitude=ampTone[toneI];
+					if(amplitude<ampAverage&&random2()<.9){
+						amplitude=0;
+					}
 				}
 
 				maxHistory[0]+=ampMax;
@@ -168,10 +185,14 @@ window.onload = function () {
 					amplitude=.99999;
 				}
 					
-				while(lastTones.length>1){
-					lastTones[0].pause();
-					lastTones.shift();
+					
+				if(random2()<.25){
+					while(lastTones.length>4){
+						lastTones[0].pause();
+						lastTones.shift();
+					}
 				}
+				
 				
 				
 				
@@ -195,7 +216,7 @@ window.onload = function () {
 				
 				
 				
-				currentTone.currentTime=toneI-random2();
+				currentTone.currentTime=toneI;//-((random2()*2)-1);
 				
 				
 				currentTone.play();
@@ -233,7 +254,6 @@ var random2Last=[0];
 
 function random2(){
 	return Math.random();
-	
 	
 }
 

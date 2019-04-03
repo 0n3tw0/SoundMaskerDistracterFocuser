@@ -23,32 +23,30 @@ window.onload = function () {
 	var tones=[
 	
 		new Audio('range.mp3'),
-		new Audio('range.mp3'),
 		new Audio('range2.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range2.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range2.mp3'),
-		new Audio('range.mp3'),
+		new Audio('range3.mp3'),
+		
 		new Audio('range.mp3'),
 		new Audio('range2.mp3'),
 		new Audio('range3.mp3'),
 		
 		new Audio('range.mp3'),
+		new Audio('range2.mp3'),
+		new Audio('range3.mp3'),
+		
 		new Audio('range.mp3'),
 		new Audio('range2.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range.mp3'),
-		new Audio('range2.mp3'),
-		new Audio('range.mp3'),
+		new Audio('range3.mp3'),
+		
 		new Audio('range.mp3'),
 		new Audio('range2.mp3'),
-		new Audio('range.mp3'),
+		new Audio('range3.mp3'),
+		
 		new Audio('range.mp3'),
 		new Audio('range2.mp3'),
-		new Audio('range3.mp3')
+		new Audio('range3.mp3'),
+		
+		
 		
 	];
 	
@@ -58,9 +56,9 @@ window.onload = function () {
 	var currentTonePlayedAt=0;
 	var maxAmplitude=300;
 	var maxHistory=[0];
-	var intervalPlay=10;
+	var intervalPlay=20;
 	var lastTones=[];
-	var maxVolume=1;
+	var maxVolume=.1;
 	var volumeHistory=[0];
     
     var soundAllowed = function (stream) {
@@ -101,8 +99,8 @@ window.onload = function () {
 			var amplitude=0;
 			var ampTone=[];
 			var ampTotal=0;
-			var moduloEq=Math.floor(random2()*10);
-			var altAmp=random2()<.1?1:0;
+			var moduloEq=Math.floor(random2()*40);
+			var altAmp=random2()<.2?1:0;
 
             for (var i2 = 0 ; i2 < 255; i2++) {
 			
@@ -110,16 +108,17 @@ window.onload = function () {
 			
               	adjustedLength = Math.floor(frequencyArray[i2]) - (Math.floor(frequencyArray[i2]) % 5);
 			
-				if(altAmp||random2()<.005){
-					if(i2%10!=moduloEq){
+				if(altAmp||random2()<.02){
+					if(i2%40!=moduloEq){
 						adjustedLength*=.1;
 					}else{
-						adjustedLength*=(3+Math.floor(random2()*6));
+						adjustedLength*=4;
 						adjustedLength=adjustedLength>200?0:adjustedLength;
 					}
 				
 				
 				}
+				
 				
 
                 paths[i2].setAttribute('d', 'M '+ (i2) +',255 l 0,-' + adjustedLength);
@@ -132,11 +131,15 @@ window.onload = function () {
 				
             }
 			
+			var ampTone2=ampTone.slice();
+			
 			
 			var timestampSeconds=Date.now();
 
 			if(timestampSeconds-currentTonePlayedAt>intervalPlay){
 			
+				
+				
 				var ampAverage=(ampTotal/ampTone.length);
 				var ampMax=0;
 				
@@ -149,82 +152,89 @@ window.onload = function () {
 				
 				ampAverage=ampMax*.9;
 				var ampAverage2=ampMax*.4;
+					
+				for(var i4=0;i4<2;i4++){
 				
-				for(var i3=0;i3<ampTone.length;i3++){
-					if(ampTone[i3]<ampAverage&&ampTone[i3]<ampAverage2){
-						ampTone[i3]=0;
+					ampTone=ampTone2.slice();
+					
+					for(var i3=0;i3<ampTone.length;i3++){
+						if(ampTone[i3]<ampAverage&&ampTone[i3]<ampAverage2){
+							ampTone[i3]=0;
+						}
 					}
-				}
 
-				var toneI=0;
-				amplitude=0;
-				
-				while(!amplitude&&random2()<.99){
-					toneI=Math.floor(random2()*ampTone.length);
-					amplitude=ampTone[toneI];
-					if(amplitude<ampAverage&&random2()<.9){
+					var toneI=0;
+					amplitude=0;
+					
+					while(!amplitude&&random2()<.99){
+						toneI=Math.floor(random2()*ampTone.length);
+						amplitude=ampTone[toneI];
+						if(amplitude<ampAverage&&random2()<.6){
+							amplitude=0;
+						}
+					}
+
+					maxHistory[0]+=ampMax;
+					maxHistory.push(ampMax);
+					
+					if(maxHistory.length>20){
+						maxAmplitude=maxHistory[0]/maxHistory.length;
+						console.log(maxAmplitude);
+						maxHistory=[0];
+					}
+					
+					amplitude=amplitude/maxAmplitude;
+					
+					if(amplitude<0){
 						amplitude=0;
 					}
-				}
-
-				maxHistory[0]+=ampMax;
-				maxHistory.push(ampMax);
+					if(amplitude>=1){
+						amplitude=.99999;
+					}
+						
+						
 				
-				if(maxHistory.length>20){
-					maxAmplitude=maxHistory[0]/maxHistory.length;
-					console.log(maxAmplitude);
-					maxHistory=[0];
-				}
-				
-				amplitude=amplitude/maxAmplitude;
-				
-				if(amplitude<0){
-					amplitude=0;
-				}
-				if(amplitude>=1){
-					amplitude=.99999;
-				}
-					
-					
-				if(random2()<.25){
-					while(lastTones.length>4){
+					while(lastTones.length>2+Math.floor(random2()*3)){
 						lastTones[0].pause();
 						lastTones.shift();
 					}
-				}
 				
-				
-				
-				
-				currentTone=tones[Math.floor(random2()*tones.length)];
-				lastTones.push(currentTone);
-				
-				
-				volumeHistory.push(amplitude);
-				while(volumeHistory.length>40){
-					volumeHistory.shift();
-				}
-				
-				
-				
-				amplitude*=maxVolume;
-				
-				
+					
+					
+					
+					
+					currentTone=tones[Math.floor(random2()*tones.length)];
+					lastTones.push(currentTone);
+					
+					
+					volumeHistory.push(amplitude);
+					while(volumeHistory.length>40){
+						volumeHistory.shift();
+					}
+					
+					
+					
+					amplitude*=maxVolume;
+					
+					
 
-				currentTone.volume=amplitude;
-				currentTone.loop=true;
+					currentTone.volume=amplitude;
+					currentTone.loop=true;
+					
+					
+					currentTone.currentTime=toneI+((random2()*3)-1);
+					
+					
+					currentTone.play();
+					
+					
+					
+					
+					
+					currentTonePlayedAt=timestampSeconds;
 				
 				
-				
-				currentTone.currentTime=toneI;//-((random2()*2)-1);
-				
-				
-				currentTone.play();
-				
-				
-				
-				currentTonePlayedAt=timestampSeconds;
-				
+				}
 			}
 			
 
